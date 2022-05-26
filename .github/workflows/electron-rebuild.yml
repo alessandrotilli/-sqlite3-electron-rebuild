@@ -14,6 +14,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         # using older ubuntu to mitigate "/lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.29' not found" error
         os: [macos-latest, windows-latest, ubuntu-18.04]
@@ -55,10 +56,9 @@ jobs:
       - name: list renamed folder
         run: ls -R sqlite3-${{ steps.os.outputs.name }}
         
-      - uses: meeDamian/github-release@2.0
+      - name: Update release
+        uses: ColinPitrat/update-release@v1.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.event.inputs.electron_version }}
-          name: ${{ github.event.inputs.electron_version }}
-          gzip: folders
-          files: sqlite3-${{ steps.os.outputs.name }}
+          release: ${{ github.event.inputs.electron_version }}
+          asset: sqlite3-${{ steps.os.outputs.name }}
