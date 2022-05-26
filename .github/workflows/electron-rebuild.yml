@@ -17,6 +17,9 @@ jobs:
      - name: set release name
        id: tag
        run: echo "::set-output name=name::electron-${{ github.event.inputs.electron_version }}"
+       
+     - name: Fake file
+       run: echo "${{ steps.tag.outputs.name }}" > version.txt
         
      - name: Update release
        uses: ColinPitrat/update-release@v1.0.1
@@ -24,6 +27,8 @@ jobs:
          token: ${{ secrets.GITHUB_TOKEN }}
          release: ${{ steps.tag.outputs.name }}
          body: sqlite binaries rebuilt against electron ${{ github.event.inputs.electron_version }}
+         files: version.txt
+
    outputs:
       name: ${{ steps.tag.outputs.name }}
    
