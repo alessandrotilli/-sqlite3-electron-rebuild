@@ -43,14 +43,14 @@ jobs:
       - name: list output
         run: ls -R node_modules/sqlite3/bin
         
-      - name: set electron short version
-        id: electron
+      - name: set platform version
+        id: os
         run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin' || matrix.os == 'win-latest' && 'win32' || 'linux' }}"
                 
       - name: rename output
         run: ./rename.sh
         env:
-          ELECTRON_VERSION: ${{steps.electron.outputs.name}}
+          ELECTRON_VERSION: ${{ github.event.inputs.electron_version }}
 
       - name: list renamed folder
         run: ls -R sqlite3-${{ steps.os.outputs.name }}
