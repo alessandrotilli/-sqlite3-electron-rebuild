@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-
-// ----------------------------------------------------------------------
-
 const path = require('path');
 const fs   = require('fs');
 
@@ -19,6 +15,9 @@ fs.readdirSync(bin).forEach((dirName) => {
 
   const src = path.join(bin, dirName, 'sqlite3.node');
   const dest = path.join(dir, 'node-sqlite3.node');
+
+  console.log('copy', src);
+  console.log('to', dest);
 
   fs.cpSync(src, dest);
 });
