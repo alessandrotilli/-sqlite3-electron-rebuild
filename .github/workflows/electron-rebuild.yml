@@ -61,4 +61,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: ${{ github.event.inputs.electron_version }}
-          asset: sqlite3-${{ steps.os.outputs.name }}
+          files: sqlite3-${{ steps.os.outputs.name }}
