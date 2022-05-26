@@ -11,7 +11,18 @@ on:
         required: true
 
 jobs:
+  release:
+   runs-on: ubuntu-18.04
+   steps:
+     - name: Update release
+       uses: ColinPitrat/update-release@v1.0.1
+       with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         release: electron-${{ github.event.inputs.electron_version }}
+         body: sqlite binaries rebuilt against electron ${{ github.event.inputs.electron_version }}
+   
   build:
+    needs: [release]
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -46,7 +57,7 @@ jobs:
         
       - name: set platform version
         id: os
-        run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin' || matrix.os == 'win-latest' && 'win32' || 'linux' }}"
+        run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin' || matrix.os == 'windows-latest' && 'win32' || 'linux' }}"
                 
       - name: rename output
         run: ./rename.sh
@@ -70,4 +81,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: ${{ github.event.inputs.electron_version }}
+          body: sqlite binaries rebuilt against electron ${{ github.event.inputs.electron_version }}
           files: sqlite3-${{ steps.os.outputs.name }}.tar.gz
