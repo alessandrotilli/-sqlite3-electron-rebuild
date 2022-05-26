@@ -45,7 +45,7 @@ jobs:
         
       - name: set electron short version
         id: electron
-        run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin'|| matrix.os == 'win-latest' && 'win32' || 'linux'' }}"
+        run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin' || matrix.os == 'win-latest' && 'win32' || 'linux' }}"
                 
       - name: rename output
         run: ./rename.sh
