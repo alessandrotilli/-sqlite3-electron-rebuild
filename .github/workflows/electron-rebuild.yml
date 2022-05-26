@@ -54,3 +54,11 @@ jobs:
 
       - name: list renamed folder
         run: ls -R sqlite3-${{ steps.os.outputs.name }}
+        
+      - uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.inputs.electron_version }}
+          name: ${{ github.event.inputs.electron_version }}
+          gzip: folders
+          files: sqlite3-${{ steps.os.outputs.name }}
