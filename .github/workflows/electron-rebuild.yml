@@ -14,12 +14,18 @@ jobs:
   release:
    runs-on: ubuntu-18.04
    steps:
+     - name: set release name
+       id: tag
+       run: echo "::set-output name=name::electron-${{ github.event.inputs.electron_version }}"
+        
      - name: Update release
        uses: ColinPitrat/update-release@v1.0.1
        with:
          token: ${{ secrets.GITHUB_TOKEN }}
-         release: electron-${{ github.event.inputs.electron_version }}
+         release: ${{ steps.tag.outputs.name }}
          body: sqlite binaries rebuilt against electron ${{ github.event.inputs.electron_version }}
+   outputs:
+      name: ${{ steps.tag.outputs.name }}
    
   build:
     needs: [release]
@@ -80,6 +86,6 @@ jobs:
         uses: ColinPitrat/update-release@v1.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release: ${{ github.event.inputs.electron_version }}
+          release: ${{ needs.release.outputs.name }} }}
           body: sqlite binaries rebuilt against electron ${{ github.event.inputs.electron_version }}
           files: sqlite3-${{ steps.os.outputs.name }}.tar.gz
