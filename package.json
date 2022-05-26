@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^3.2.7"
   }
 }
