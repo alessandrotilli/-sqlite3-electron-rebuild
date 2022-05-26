@@ -71,7 +71,7 @@ jobs:
         run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin' || matrix.os == 'windows-latest' && 'win32' || 'linux' }}"
                 
       - name: rename output
-        run: ./rename.sh
+        run: node rename.js
         env:
           ELECTRON_VERSION: ${{ github.event.inputs.electron_version }}
 
