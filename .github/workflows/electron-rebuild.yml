@@ -56,9 +56,18 @@ jobs:
       - name: list renamed folder
         run: ls -R sqlite3-${{ steps.os.outputs.name }}
         
+      - name: tar folder
+        uses: a7ul/tar-action@v1.1.0
+        id: compress
+        with:
+          command: c
+          files: |
+            ./sqlite3-${{ steps.os.outputs.name }}
+          outPath: sqlite3-${{ steps.os.outputs.name }}.tar.gz
+        
       - name: Update release
         uses: ColinPitrat/update-release@v1.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: ${{ github.event.inputs.electron_version }}
-          files: sqlite3-${{ steps.os.outputs.name }}
+          files: sqlite3-${{ steps.os.outputs.name }}.tar.gz
