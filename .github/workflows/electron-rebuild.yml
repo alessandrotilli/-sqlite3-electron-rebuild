@@ -91,6 +91,6 @@ jobs:
         uses: ColinPitrat/update-release@v1.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release: ${{ needs.release.outputs.name }} }}
+          release: ${{ needs.release.outputs.name }}
           body: sqlite binaries rebuilt against electron ${{ github.event.inputs.electron_version }}
           files: sqlite3-${{ steps.os.outputs.name }}.tar.gz
