@@ -32,6 +32,9 @@ jobs:
       - name: rebuild
         run: npx electron-rebuild -v "${{ github.event.inputs.electron_version }}"
         
+      - if: matrix.os == 'ubuntu-18.04'
+        run: sudo apt-get install --no-install-recommends -y gcc-multilib g++-multilib
+        
       - if: matrix.os != 'macos-latest'
         name: rebuild ia32
         run: npx electron-rebuild -v "${{ github.event.inputs.electron_version }}" -a ia32
