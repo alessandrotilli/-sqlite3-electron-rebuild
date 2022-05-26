@@ -32,12 +32,25 @@ jobs:
       - name: rebuild
         run: npx electron-rebuild -v "${{ github.event.inputs.electron_version }}"
         
-      - if: matrix.os == 'ubuntu-18.04'
+      - name: apt install
+        if: matrix.os == 'ubuntu-18.04'
         run: sudo apt-get install --no-install-recommends -y gcc-multilib g++-multilib
         
       - if: matrix.os != 'macos-latest'
         name: rebuild ia32
         run: npx electron-rebuild -v "${{ github.event.inputs.electron_version }}" -a ia32
         
-      - name: list folder
+      - name: list output
         run: ls -R node_modules/sqlite3/bin
+        
+      - name: set electron short version
+        id: electron
+        run: echo "::set-output name=name::${{ matrix.os == 'macos-latest' && 'darwin'|| matrix.os == 'win-latest' && 'win32' || 'linux'' }}"
+                
+      - name: rename output
+        run: ./rename.sh
+        env:
+          ELECTRON_VERSION: ${{steps.electron.outputs.name}}
+
+      - name: list renamed folder
+        run: ls -R sqlite3-${{ steps.os.outputs.name }}
