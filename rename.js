@@ -1,9 +1,8 @@
 const path = require('path');
 const fs   = require('fs');
 
-const version  = process.env.ELECTRON_VERSION;
-const short    = version.substr(0, version.lastIndexOf('.'));
-const platform = process.platform;
+const version = process.env.ELECTRON_VERSION;
+const short   = version.substr(0, version.lastIndexOf('.'));
 
 const bin = 'node_modules/sqlite3/bin';
 
@@ -14,7 +13,7 @@ fs.readdirSync(bin).forEach((dirName) => {
   fs.mkdirSync(dir, { recursive: true });
 
   const src = path.join(bin, dirName, 'sqlite3.node');
-  const dest = path.join(dir, 'node-sqlite3.node');
+  const dest = path.join(dir, 'node_sqlite3.node');
 
   console.log('copy', src);
   console.log('to', dest);
