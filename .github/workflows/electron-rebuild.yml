@@ -22,7 +22,7 @@ jobs:
        run: echo "${{ steps.tag.outputs.name }}" > version.txt
         
      - name: Update release
-       uses: ColinPitrat/update-release@v1.0.1
+       uses: IsaacShelton/update-existing-release@v1.3.0
        with:
          token: ${{ secrets.GITHUB_TOKEN }}
          release: ${{ steps.tag.outputs.name }}
